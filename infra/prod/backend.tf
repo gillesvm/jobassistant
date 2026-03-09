@@ -8,8 +8,14 @@ terraform {
     dynamodb_table = "jobassistant-tflocks"
     encrypt        = true
   }
-}
-
-resource "aws_s3_bucket" "backend_bucket" {
-  bucket = "gilles-jobassistant-tfstate"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "6.17.0"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.1.0"
+    }
+  }
 }
