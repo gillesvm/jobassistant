@@ -9,3 +9,7 @@ terraform {
     encrypt        = true
   }
 }
+
+resource "aws_s3_bucket" "backend_bucket" {
+  bucket = "gilles-jobassistant-tfstate"
+}
