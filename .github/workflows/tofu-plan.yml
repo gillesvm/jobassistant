@@ -47,7 +47,7 @@ jobs:
         working-directory: ./infra/prod
 
       - name: TF Lint install
-        uses: terraform-linters/setup-tflint
+        uses: terraform-linters/setup-tflint@v4
 
       - name: tf linting
         run: |

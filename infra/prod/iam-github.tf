@@ -41,5 +41,3 @@ resource "aws_iam_role_policy_attachment" "admin" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
   role       = aws_iam_role.github_actions_terraform.name
 }
-
-# change to trigger pr
