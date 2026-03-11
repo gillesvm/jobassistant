@@ -38,6 +38,29 @@ jobs:
         run: tofu init
         working-directory: ./infra/prod   # change to your tf root if different
 
+      - name: Tofu format check
+        run: tofu fmt -check
+        working-directory: ./infra/prod
+
       - name: Tofu validate
         run: tofu validate
         working-directory: ./infra/prod
+
+      - name: TF Lint install
+        uses: terraform-linters/setup-tflint
+
+      - name: tf linting
+        run: |
+          tflint --init
+          tflint
+        working-directory: ./infra/prod
+
+      - name: Tofu plan
+        run: tofu plan
+        working-directory: ./infra/prod
+
+      - name: Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: ./infra/prod
+          soft_fail: true
