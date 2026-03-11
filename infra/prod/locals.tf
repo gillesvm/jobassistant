@@ -2,7 +2,7 @@ locals {
   project     = "jobassistant"
   environment = "prod"
 
-  name_prefix = "${local.project}-${local.environment}"
+  name_prefix = "${local.project}-${local.environment}" #tflint-ignore: terraform_unused_declarations
 
   common_tags = {
     Project     = local.project
