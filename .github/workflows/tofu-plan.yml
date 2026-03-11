@@ -59,6 +59,11 @@ jobs:
         run: tofu plan
         working-directory: ./infra/prod
 
+      - name: Save plan summary
+        run: |
+          tofu plan -no-color 2>&1 | tee $GITHUB_STEP_SUMMARY
+        working-directory: ./infra/prod
+
       - name: Checkov
         uses: bridgecrewio/checkov-action@v12
         with:
