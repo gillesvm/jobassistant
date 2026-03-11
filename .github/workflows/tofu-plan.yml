@@ -1,0 +1,43 @@
+name: OpenTofu Validate
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'infra/prod/**.tf'
+      - 'infra/prod/**.tfvars'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.11.5   # pin to the version you use locally
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE_ARN }}
+          aws-region: eu-central-1   # change to your region
+
+      - name: Tofu version
+        run: tofu version
+
+      - name: Tofu init
+        run: tofu init
+        working-directory: ./infra/prod   # change to your tf root if different
+
+      - name: Tofu validate
+        run: tofu validate
+        working-directory: ./infra/prod
