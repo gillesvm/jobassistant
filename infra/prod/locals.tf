@@ -1,5 +1,5 @@
 locals {
-  project = "jobassistant"
+  project     = "jobassistant"
   environment = "prod"
 
   name_prefix = "${local.project}-${local.environment}"
