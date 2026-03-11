@@ -1,8 +1,6 @@
 provider "aws" {
   region = "eu-central-1"
   default_tags {
-    tags = {
-      ManagedBy = "terraform"
-    }
+    tags = local.common_tags
   }
 }
