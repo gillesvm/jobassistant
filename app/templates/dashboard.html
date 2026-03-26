@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>Dashboard</h2>
+
+<h3>Overdue Follow-ups</h3>
+<ul>
+    {% for job in overdue %}
+    <li>
+        <a href="/jobs/{{ job.job_id }}">{{ job.company }} - {{ job.title }}</a>
+        ({{ job.next_followup_at }})
+    </li>
+    {% else %}
+    <li>No overdue follow-ups.</li>
+    {% endfor %}
+</ul>
+
+<h3>Due Soon</h3>
+<ul>
+    {% for job in due_soon %}
+    <li>
+        <a href="/jobs/{{ job.job_id }}">{{ job.company }} - {{ job.title }}</a>
+        ({{ job.next_followup_at }})
+    </li>
+    {% else %}
+    <li>No upcoming follow-ups.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

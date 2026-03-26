@@ -40,3 +40,6 @@ terraform.rc
 .venv/
 __pycache__/
 *.pyc
+
+# Ignore local environment variables
+.env

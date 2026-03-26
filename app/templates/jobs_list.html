@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">All Jobs</h2>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+    <tr>
+        <th>Company</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Stage</th>
+        <th>Next Follow-up</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for job in jobs %}
+    <tr>
+        <td><a href="/jobs/{{ job.job_id }}">{{ job.company }}</a></td>
+        <td>{{ job.title }}</td>
+        <td>
+            <span class="badge bg-secondary">{{ job.status }}</span>
+        </td>
+        <td>{{ job.stage }}</td>
+        <td>{{ job.next_followup_at }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

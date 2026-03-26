@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Job Detail{% endblock %}
+
+{% block content %}
+<h2>{{ job.company }} - {{ job.title }}</h2>
+
+<p><strong>Status:</strong> {{ job.status }}</p>
+<p><strong>Stage:</strong> {{ job.stage }}</p>
+<p><strong>Next follow-up:</strong> {{ job.next_followup_at }}</p>
+<p><strong>Updated at:</strong> {{ job.updated_at }}</p>
+<p><strong>Notes:</strong> {{ job.notes_summary }}</p>
+{% endblock %}
