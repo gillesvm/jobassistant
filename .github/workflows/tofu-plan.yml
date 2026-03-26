@@ -67,7 +67,7 @@ jobs:
 
       - name: Upload plan to S3
         run: |
-          aws s3 cp ./tfplan s3://gilles-jobassistant-artifacts/plans/tfplan-${{ github.sha }}
+          aws s3 cp ./tfplan s3://jobassistant-prod-pipeline-artifacts/plans/tfplan-${{ github.sha }}
         working-directory: ./infra/prod
 
       - name: Save plan summary
