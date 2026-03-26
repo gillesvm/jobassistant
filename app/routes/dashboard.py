@@ -1,5 +1,6 @@
 from datetime import date
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
+from services.auth import require_auth
 from fastapi.templating import Jinja2Templates
 
 from services.mock_data import get_all_jobs
@@ -8,8 +9,8 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/")
-def dashboard(request: Request):
+@router.get("/", dependencies=[Depends(require_auth)])
+async def dashboard(request: Request):
     jobs = get_all_jobs()
     today = str(date.today())
 

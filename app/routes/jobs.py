@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request, HTTPException, Depends
 from fastapi.templating import Jinja2Templates
+from services.auth import require_auth
 
 from services.mock_data import get_all_jobs, get_job_by_id
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_auth)])
 templates = Jinja2Templates(directory="templates")
 
 
