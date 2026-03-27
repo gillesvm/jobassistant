@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Edit Job</h2>
+
+<form method="post" action="/jobs/{{ job.job_id }}/edit" class="card p-4 shadow-sm">
+    <div class="mb-3">
+        <label class="form-label">Company</label>
+        <input type="text" name="company" class="form-control" value="{{ job.company }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" value="{{ job.title }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Job URL</label>
+        <input type="url" name="job_url" class="form-control" value="{{ job.job_url }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select name="status" class="form-control" required>
+            <option value="new" {% if job.status == "new" %}selected{% endif %}>New</option>
+            <option value="applied" {% if job.status == "applied" %}selected{% endif %}>Applied</option>
+            <option value="interviewing" {% if job.status == "interviewing" %}selected{% endif %}>Interviewing</option>
+            <option value="offer received" {% if job.status == "offer received" %}selected{% endif %}>Offer Received</option>
+            <option value="accepted" {% if job.status == "accepted" %}selected{% endif %}>Accepted</option>
+            <option value="rejected" {% if job.status == "rejected" %}selected{% endif %}>Rejected</option>
+            <option value="declined" {% if job.status == "declined" %}selected{% endif %}>Declined</option>
+            <option value="withdrawn" {% if job.status == "withdrawn" %}selected{% endif %}>Withdrawn</option>
+            <option value="no response" {% if job.status == "no response" %}selected{% endif %}>No Response</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Created Date</label>
+            <input type="date" name="created_at" class="form-control" value="{{ job.created_at_date }}" required>
+            <small class="text-muted">Adjust for importing old applications</small>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Next Follow-up Date</label>
+            <input type="date" name="next_followup_at" class="form-control" value="{{ job.next_followup_at_date }}">
+            <small class="text-muted">When to follow up next</small>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Last Updated</label>
+            <input type="text" class="form-control" value="{{ job.updated_at_formatted }}" readonly disabled>
+            <small class="text-muted">Auto-updated on save</small>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Job Description</label>
+        <textarea name="job_description" class="form-control" rows="8">{{ job.job_description or '' }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Resume Used</label>
+        <textarea name="resume_used" class="form-control" rows="8">{{ job.resume_used or '' }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Cover Letter</label>
+        <textarea name="cover_letter" class="form-control" rows="8">{{ job.cover_letter or '' }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Feedback / Notes</label>
+        <textarea name="feedback" class="form-control" rows="6">{{ job.feedback or '' }}</textarea>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/jobs" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

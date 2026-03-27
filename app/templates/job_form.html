@@ -3,32 +3,37 @@
 {% block content %}
 <h2 class="mb-4">Add Job</h2>
 
-<form class="card p-4 shadow-sm">
+<form method="post" action="/jobs/new" class="card p-4 shadow-sm">
     <div class="mb-3">
         <label class="form-label">Company</label>
-        <input type="text" name="company" class="form-control">
+        <input type="text" name="company" class="form-control" required>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Title</label>
-        <input type="text" name="title" class="form-control">
+        <input type="text" name="title" class="form-control" required>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Job URL</label>
-        <input type="url" name="job_url" class="form-control">
+        <input type="url" name="job_url" class="form-control" required>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Status</label>
-        <input type="text" name="status" class="form-control">
+        <select name="status" class="form-control" required>
+            <option value="new" selected>New</option>
+            <option value="applied">Applied</option>
+            <option value="interviewing">Interviewing</option>
+            <option value="offer received">Offer Received</option>
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+            <option value="declined">Declined</option>
+            <option value="withdrawn">Withdrawn</option>
+            <option value="no response">No Response</option>
+        </select>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Next follow-up</label>
-        <input type="date" name="next_followup_at" class="form-control">
-    </div>
-
-    <button class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
 {% endblock %}
