@@ -43,3 +43,16 @@ __pycache__/
 
 # Ignore local environment variables
 .env
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Node modules (if you ever add frontend build tools)
+node_modules/
+
+# Logs
+*.log

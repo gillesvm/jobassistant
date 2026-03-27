@@ -1,3 +1,10 @@
+# About
+
+These scripts are no longer needed.  
+The seed_jobs.py script was used to put in some dummy data in the DynamoDB table.  
+The scrape_job.py was generated with the intention to scrape job descriptions from LinkedIn. This idea has been
+abandoned for now. Putting my focus on doing simple improvements on the project and might revisit this later
+
 # Installation for the seed_jobs.py
 
 Best is to use a python virtual environment for these python files to prevent bloating your system and the project.
