@@ -1,9 +1,9 @@
-# about
+# About
 
-this will become a webpage layer for my jobtracker or jobassistant where I can add jobs, edit jobs, list jobs, filter by
+This will become a webpage layer for my jobtracker or jobassistant where I can add jobs, edit jobs, list jobs, filter by
 status and see overdue followups
 
-# initial file structure within jobassistant project
+# Initial file structure within jobassistant project
 
 ```
 jobassistant/
@@ -34,14 +34,23 @@ jobassistant/
     
 ```
 
-# components
+# Components
 
-this is built using python and fastapi and bootstrap
+This is built using python and fastapi and bootstrap
 
-# usage
+# Usage
 
-run locally with this command
+Run locally with these commands. Copy the .env.example file to .env and fill in the values, make sure your cli is logged
+in to AWS.
 
 ```bash
+# first create a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# install dependencies
+pip install -r requirements.txt
+
+# run the app
 uvicorn main:app --reload
 ```
