@@ -41,8 +41,11 @@ async def dashboard(request: Request):
                 job["next_followup_at_formatted"] = job["next_followup_at"]
                 job["is_overdue"] = False
 
-    overdue = [job for job in jobs if job.get("is_overdue")]
-    due_soon = [job for job in jobs if job.get("next_followup_at") and not job.get("is_overdue")]
+    overdue = [job for job in jobs if
+               job.get("is_overdue") and job.get("status") in (["new", "applied", "interviewing"])]
+    due_soon = [job for job in jobs if
+                job.get("next_followup_at") and not job.get("is_overdue") and job.get("status") in (
+                ["new", "applied", "interviewing"])]
 
     return templates.TemplateResponse(
         request,
