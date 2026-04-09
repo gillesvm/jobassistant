@@ -1,27 +1,33 @@
 {% extends "base.html" %}
 
+{% block title %}Add Job{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Add Job</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Add Job</h2>
+    <a href="/jobs" class="btn btn-secondary">Back to Jobs</a>
+</div>
 
-<form method="post" action="/jobs/new" class="card p-4 shadow-sm">
+<form method="post" action="/jobs/new" class="card p-4 elevation-2">
     <div class="mb-3">
-        <label class="form-label">Company</label>
-        <input type="text" name="company" class="form-control" required>
+        <label for="company" class="form-label required-field">Company</label>
+        <input type="text" id="company" name="company" class="form-control" required aria-required="true">
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Title</label>
-        <input type="text" name="title" class="form-control" required>
+        <label for="title" class="form-label required-field">Title</label>
+        <input type="text" id="title" name="title" class="form-control" required aria-required="true">
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Job URL</label>
-        <input type="url" name="job_url" class="form-control" required>
+        <label for="job_url" class="form-label required-field">Job URL</label>
+        <input type="url" id="job_url" name="job_url" class="form-control" required aria-required="true" aria-describedby="job-url-help">
+        <small id="job-url-help" class="form-text text-muted">Enter the full URL to the job posting</small>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Status</label>
-        <select name="status" class="form-control" required>
+        <label for="status" class="form-label required-field">Status</label>
+        <select id="status" name="status" class="form-select" required aria-required="true">
             <option value="new" selected>New</option>
             <option value="applied">Applied</option>
             <option value="interviewing">Interviewing</option>
@@ -34,6 +40,27 @@
         </select>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <div class="mb-3">
+        <label for="job_description" class="form-label">Job Description</label>
+        <textarea id="job_description" name="job_description" class="form-control" rows="8" aria-describedby="job-desc-help"></textarea>
+        <small id="job-desc-help" class="form-text text-muted">Paste the job description here</small>
+    </div>
+
+    <div class="mb-3">
+        <label for="resume_used" class="form-label">Resume Used</label>
+        <textarea id="resume_used" name="resume_used" class="form-control" rows="8" aria-describedby="resume-help"></textarea>
+        <small id="resume-help" class="form-text text-muted">Paste or note the resume version used</small>
+    </div>
+
+    <div class="mb-3">
+        <label for="cover_letter" class="form-label">Cover Letter</label>
+        <textarea id="cover_letter" name="cover_letter" class="form-control" rows="8" aria-describedby="cover-help"></textarea>
+        <small id="cover-help" class="form-text text-muted">Paste your cover letter here</small>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save Job Application</button>
+        <a href="/jobs" class="btn btn-secondary">Cancel</a>
+    </div>
 </form>
 {% endblock %}

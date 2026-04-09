@@ -33,19 +33,36 @@ async def dashboard(request: Request):
     # Format dates and categorize
     for job in jobs:
         if job.get("next_followup_at"):
+            followup_dt = None
             try:
+                # Try ISO format first (with or without timezone)
                 followup_dt = datetime.fromisoformat(job["next_followup_at"].replace('Z', '+00:00'))
-                job["next_followup_at_formatted"] = followup_dt.strftime("%d-%m-%Y")
-                job["is_overdue"] = followup_dt < now
-            except:
-                job["next_followup_at_formatted"] = job["next_followup_at"]
-                job["is_overdue"] = False
+            except Exception:
+                # Fallback: try YYYY-MM-DD format
+                try:
+                    # Parse as date-only and add Brussels timezone at midnight
+                    followup_dt = datetime.strptime(job["next_followup_at"], '%Y-%m-%d')
+                    followup_dt = followup_dt.replace(tzinfo=BRUSSELS_TZ)
+                except Exception:
+                    # Fallback: try DD-MM-YYYY format
+                    try:
+                        followup_dt = datetime.strptime(job["next_followup_at"], '%d-%m-%Y')
+                        followup_dt = followup_dt.replace(tzinfo=BRUSSELS_TZ)
+                    except Exception:
+                        # Could not parse, skip this job
+                        job["next_followup_at_formatted"] = job["next_followup_at"]
+                        job["is_overdue"] = False
+                        continue
+
+            # Format the date and check if overdue
+            job["next_followup_at_formatted"] = followup_dt.strftime("%d-%m-%Y")
+            job["is_overdue"] = followup_dt < now
 
     overdue = [job for job in jobs if
-               job.get("is_overdue") and job.get("status") in (["new", "applied", "interviewing"])]
+               job.get("is_overdue") and job.get("status") in ["new", "applied", "interviewing"]]
     due_soon = [job for job in jobs if
-                job.get("next_followup_at") and not job.get("is_overdue") and job.get("status") in (
-                ["new", "applied", "interviewing"])]
+                job.get("next_followup_at") and not job.get("is_overdue") and job.get("status") in
+                ["new", "applied", "interviewing"]]
 
     return templates.TemplateResponse(
         request,

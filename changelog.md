@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- added additional fields when creating a new job
+- added docs folder with ui-improvements-suggestions.md file
+- added enhanced status badges
+- added form label and ARIA attribute improvements
+- added keyboard navigation and focus indicators
+- added toast notifications for user feedback
+- added custom color system and CSS variables
+
+### Fixes
+
+- fixed date display in existing jobs
+- fixed dashboard to properly show overdue follow-ups
+- fixed color contrast issues
+
 ## [1.1.0] 30.03.2026
 
 ### Added
