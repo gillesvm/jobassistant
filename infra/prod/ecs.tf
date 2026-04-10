@@ -1,0 +1,46 @@
+resource "aws_ecs_cluster" "jobassistant_ecs" {
+  name = "${local.name_prefix}-cluster"
+}
+
+resource "aws_ecs_task_definition" "jobassistant_task_definition" {
+  family                   = "${local.name_prefix}-task-definition"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = "256"
+  memory                   = "512"
+  execution_role_arn       = aws_iam_role.jobassistant_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.jobassistant_ecs_task_role.arn
+
+  container_definitions = jsonencode([
+    {
+      name  = "${local.name_prefix}-container"
+      image = "${aws_ecr_repository.jobassistant.repository_url}:latest"
+      portMappings = [
+        {
+          containerPort = 8000
+          hostPort      = 8000
+          protocol      = "tcp"
+        }
+      ]
+    }
+  ])
+}
+
+resource "aws_ecs_service" "jobassistant_service" {
+  name            = "${local.name_prefix}-service"
+  cluster         = aws_ecs_cluster.jobassistant_ecs.id
+  task_definition = aws_ecs_task_definition.jobassistant_task_definition.arn
+  desired_count   = 0
+  launch_type     = "FARGATE"
+  network_configuration {
+    security_groups  = [aws_security_group.jobassistant_ecs_sg.id]
+    subnets          = [aws_subnet.public_jobassistant_a.id, aws_subnet.public_jobassistant_b.id]
+    assign_public_ip = true
+  }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.jobassistant_tg.arn
+    container_name   = "${local.name_prefix}-container"
+    container_port   = 8000
+  }
+}
+

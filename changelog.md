@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+- Created a custom VPC architecture using public subnets for cost-efficient container hosting.
+- Set up an ECR repository with automated image scanning and a 5-image lifecycle retention policy.
+- Implemented a CI/CD guardrail to enforce CHANGELOG.md updates on all Pull Requests.
+- Added security groups for VPC traffic
+- Added ALB for public access to the application
+- Added ACM and Route53 for custom domain and https
+- Consolidated IAM resources and added ECS Fargate infrastructure with initial count 0
+
 ## [1.2.0] - 2026-04-10
 
 ### Added
