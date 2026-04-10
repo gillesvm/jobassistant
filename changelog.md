@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Added security groups for VPC traffic
 - Added ALB for public access to the application
 - Added ACM and Route53 for custom domain and https
+- Consolidated IAM resources and added ECS Fargate infrastructure with initial count 0
 
 ## [1.2.0] - 2026-04-10
 
