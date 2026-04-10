@@ -74,3 +74,12 @@ jobs:
         run: |
           tofu show -no-color tfplan 2>&1 | tee $GITHUB_STEP_SUMMARY
         working-directory: ./infra/prod
+
+      - name: Check if CHANGELOG.md was updated
+        run: |
+          if git diff --name-only origin/main...HEAD | grep -q "CHANGELOG.md"; then
+            echo "Changelog updated. Great job!"
+          else
+            echo "Error: You forgot to update the CHANGELOG.md!"
+            exit 1
+          fi
