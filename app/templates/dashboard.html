@@ -2,13 +2,15 @@
 
 {% block title %}Dashboard{% endblock %}
 
+{% block nav_dashboard %}active{% endblock %}
+
 {% block content %}
 <div class="mb-4">
     <h2 class="mb-4">Job Application Dashboard</h2>
 
     <div class="row mb-4">
         <div class="col-md-3">
-            <div class="card text-center border-primary">
+            <div class="card text-center border-primary kpi-card elevation-1" role="region" aria-label="Total Applications">
                 <div class="card-body">
                     <h5 class="card-title text-primary">Total Applications</h5>
                     <h2 class="display-4">{{ jobs|length }}</h2>
@@ -16,7 +18,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center border-danger">
+            <div class="card text-center border-danger kpi-card elevation-1" role="region" aria-label="Overdue Follow-ups">
                 <div class="card-body">
                     <h5 class="card-title text-danger">Overdue</h5>
                     <h2 class="display-4">{{ overdue|length }}</h2>
@@ -24,7 +26,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center border-warning">
+            <div class="card text-center border-warning kpi-card elevation-1" role="region" aria-label="Due Soon">
                 <div class="card-body">
                     <h5 class="card-title text-warning">Due Soon</h5>
                     <h2 class="display-4">{{ due_soon|length }}</h2>
@@ -32,7 +34,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center border-success">
+            <div class="card text-center border-success kpi-card elevation-1" role="region" aria-label="Active Applications">
                 <div class="card-body">
                     <h5 class="card-title text-success">Active</h5>
                     <h2 class="display-4">{{ jobs|selectattr('status', 'in', ['new', 'applied', 'interviewing'])|list|length }}</h2>
@@ -58,12 +60,16 @@
                             <small class="text-danger">{{ job.next_followup_at_formatted }}</small>
                         </div>
                         <p class="mb-1">{{ job.title }}</p>
-                        <small><span class="badge bg-secondary">{{ job.status }}</span></small>
+                        <small><span class="badge status-badge status-{{ job.status|replace(' ', '-') }}">{{ job.status|title }}</span></small>
                     </a>
                     {% endfor %}
                 </div>
                 {% else %}
-                <p class="text-muted">✅ No overdue follow-ups. Great job!</p>
+                <div class="empty-state">
+                    <div class="empty-state-icon">✓</div>
+                    <div class="empty-state-title">All caught up!</div>
+                    <p class="empty-state-text">No overdue follow-ups. Great job staying on top of your applications!</p>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -84,12 +90,16 @@
                             <small class="text-warning">{{ job.next_followup_at_formatted }}</small>
                         </div>
                         <p class="mb-1">{{ job.title }}</p>
-                        <small><span class="badge bg-secondary">{{ job.status }}</span></small>
+                        <small><span class="badge status-badge status-{{ job.status|replace(' ', '-') }}">{{ job.status|title }}</span></small>
                     </a>
                     {% endfor %}
                 </div>
                 {% else %}
-                <p class="text-muted">No upcoming follow-ups scheduled.</p>
+                <div class="empty-state">
+                    <div class="empty-state-icon">📅</div>
+                    <div class="empty-state-title">Nothing scheduled</div>
+                    <p class="empty-state-text">No follow-ups scheduled for the next 3 days. Consider setting follow-up dates for your active applications.</p>
+                </div>
                 {% endif %}
             </div>
         </div>

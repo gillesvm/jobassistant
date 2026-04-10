@@ -2,29 +2,45 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## Unreleased
 
-## [1.1.0] 30.03.2026
+## [1.2.0] - 2026-04-10
 
 ### Added
 
-- added changelog
+- Added additional fields when creating a new job
+- Added docs folder with ui-improvements-suggestions.md file
+- Added enhanced status badges
+- Added form label and ARIA attribute improvements
+- Added keyboard navigation and focus indicators
+- Added toast notifications for user feedback
+- Added custom color system and CSS variables
+
+### Security
+
+- Hardened GitHub Actions by pinning third-party actions to SHA hashes
+- Enforced S3 Public Access Block and Ownership Controls in Terraform
 
 ### Fixes
 
-- fixed dashboard to show only relevant follow-ups
-- fixed Github readme display
-- fixed date notations
+- Fixed date display in existing jobs
+- Fixed dashboard to properly show overdue follow-ups
+- Fixed color contrast issues
 
-## [1.0.0] Initial Release
+## [1.1.0] - 2026-03-30
 
 ### Added
 
-- Job application tracking with CRUD operations
-- Dashboard with overdue and due soon follow-ups
-- Status management (new, applied, interviewing, rejected, etc.)
-- Job filtering by status
-- Rich details: job descriptions, resumes, cover letters, feedback
-- AWS DynamoDB backend with single-table design
-- Terraform infrastructure as code
-- Basic authentication
+- Added changelog
+
+### Fixes
+
+- Fixed dashboard to show only relevant follow-ups
+- Fixed GitHub readme display
+- Fixed date notations
+
+## [1.0.0] - 2026-03-15
+
+### Added
+
+- Initial Release (Job tracking, DynamoDB, Terraform infrastructure)

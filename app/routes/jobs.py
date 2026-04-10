@@ -57,13 +57,19 @@ def create_job(
     company: str = Form(...),
     title: str = Form(...),
     job_url: str = Form(...),
-    status: str = Form(...)
+    status: str = Form(...),
+    job_description: str = Form(""),
+    resume_used: str = Form(""),
+    cover_letter: str = Form("")
 ):
     job_id = add_job(
         company=company,
         title=title,
         job_url=job_url,
-        status=status
+        status=status,
+        job_description=job_description,
+        resume_used=resume_used,
+        cover_letter=cover_letter
     )
     return RedirectResponse(url="/jobs", status_code=303)
 
@@ -97,26 +103,66 @@ def edit_job_form(request: Request, job_id: str):
             job_data['feedback'] = item.get('content', '')
 
     # Format dates for display
+    job_data['created_at_date'] = ''
+    job_data['next_followup_at_date'] = ''
+    job_data['updated_at_formatted'] = ''
+
     if job_data.get('created_at'):
         try:
+            # Try ISO format first (with or without timezone)
             dt = datetime.fromisoformat(job_data['created_at'].replace('Z', '+00:00'))
             job_data['created_at_date'] = dt.strftime('%Y-%m-%d')
-        except:
-            job_data['created_at_date'] = ''
+        except Exception:
+            # Fallback: try YYYY-MM-DD format
+            try:
+                dt = datetime.strptime(job_data['created_at'], '%Y-%m-%d')
+                job_data['created_at_date'] = dt.strftime('%Y-%m-%d')
+            except Exception:
+                # Fallback: try DD-MM-YYYY format
+                try:
+                    dt = datetime.strptime(job_data['created_at'], '%d-%m-%Y')
+                    job_data['created_at_date'] = dt.strftime('%Y-%m-%d')
+                except Exception:
+                    # If all else fails, just use the raw value
+                    job_data['created_at_date'] = job_data['created_at']
 
     if job_data.get('next_followup_at'):
         try:
+            # Try ISO format first (with or without timezone)
             dt = datetime.fromisoformat(job_data['next_followup_at'].replace('Z', '+00:00'))
             job_data['next_followup_at_date'] = dt.strftime('%Y-%m-%d')
-        except:
-            job_data['next_followup_at_date'] = ''
+        except Exception:
+            # Fallback: try YYYY-MM-DD format
+            try:
+                dt = datetime.strptime(job_data['next_followup_at'], '%Y-%m-%d')
+                job_data['next_followup_at_date'] = dt.strftime('%Y-%m-%d')
+            except Exception:
+                # Fallback: try DD-MM-YYYY format
+                try:
+                    dt = datetime.strptime(job_data['next_followup_at'], '%d-%m-%Y')
+                    job_data['next_followup_at_date'] = dt.strftime('%Y-%m-%d')
+                except Exception:
+                    # If all else fails, just use the raw value
+                    job_data['next_followup_at_date'] = job_data['next_followup_at']
 
     if job_data.get('updated_at'):
         try:
+            # Try ISO format first (with or without timezone)
             dt = datetime.fromisoformat(job_data['updated_at'].replace('Z', '+00:00'))
-            job_data['updated_at_formatted'] = dt.strftime('%d-%m-%Y %H:%M')
-        except:
-            job_data['updated_at_formatted'] = ''
+            job_data['updated_at_formatted'] = dt.strftime('%d-%m-%Y')
+        except Exception:
+            # Fallback: try YYYY-MM-DD format
+            try:
+                dt = datetime.strptime(job_data['updated_at'], '%Y-%m-%d')
+                job_data['updated_at_formatted'] = dt.strftime('%d-%m-%Y')
+            except Exception:
+                # Fallback: try DD-MM-YYYY format
+                try:
+                    dt = datetime.strptime(job_data['updated_at'], '%d-%m-%Y')
+                    job_data['updated_at_formatted'] = dt.strftime('%d-%m-%Y')
+                except Exception:
+                    # If all else fails, just use the raw value
+                    job_data['updated_at_formatted'] = job_data['updated_at']
 
     return templates.TemplateResponse(
         request,

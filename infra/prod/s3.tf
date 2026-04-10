@@ -6,6 +6,22 @@ resource "aws_s3_bucket" "job_artifacts" {
   tags = local.common_tags
 }
 
+resource "aws_s3_bucket_public_access_block" "job_artifacts_access" {
+  bucket = aws_s3_bucket.job_artifacts.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_ownership_controls" "artifacts" {
+  bucket = aws_s3_bucket.job_artifacts.id
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_versioning" "artifacts" {
   bucket = aws_s3_bucket.job_artifacts.id
 

@@ -1,27 +1,33 @@
 {% extends "base.html" %}
 
+{% block title %}Edit Job - {{ job.company }}{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Edit Job</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Edit Job</h2>
+    <a href="/jobs" class="btn btn-secondary">Back to Jobs</a>
+</div>
 
-<form method="post" action="/jobs/{{ job.job_id }}/edit" class="card p-4 shadow-sm">
+<form method="post" action="/jobs/{{ job.job_id }}/edit" class="card p-4 elevation-2">
     <div class="mb-3">
-        <label class="form-label">Company</label>
-        <input type="text" name="company" class="form-control" value="{{ job.company }}" required>
+        <label for="company" class="form-label required-field">Company</label>
+        <input type="text" id="company" name="company" class="form-control" value="{{ job.company }}" required aria-required="true">
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Title</label>
-        <input type="text" name="title" class="form-control" value="{{ job.title }}" required>
+        <label for="title" class="form-label required-field">Title</label>
+        <input type="text" id="title" name="title" class="form-control" value="{{ job.title }}" required aria-required="true">
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Job URL</label>
-        <input type="url" name="job_url" class="form-control" value="{{ job.job_url }}" required>
+        <label for="job_url" class="form-label required-field">Job URL</label>
+        <input type="url" id="job_url" name="job_url" class="form-control" value="{{ job.job_url }}" required aria-required="true" aria-describedby="job-url-help">
+        <small id="job-url-help" class="form-text text-muted">Enter the full URL to the job posting</small>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Status</label>
-        <select name="status" class="form-control" required>
+        <label for="status" class="form-label required-field">Status</label>
+        <select id="status" name="status" class="form-select" required aria-required="true">
             <option value="new" {% if job.status == "new" %}selected{% endif %}>New</option>
             <option value="applied" {% if job.status == "applied" %}selected{% endif %}>Applied</option>
             <option value="interviewing" {% if job.status == "interviewing" %}selected{% endif %}>Interviewing</option>
@@ -34,42 +40,47 @@
         </select>
     </div>
 
-    <div class="row">
+    <fieldset class="row mb-3">
+        <legend class="col-form-label text-small text-uppercase fw-bold">Dates</legend>
         <div class="col-md-4 mb-3">
-            <label class="form-label">Created Date</label>
-            <input type="date" name="created_at" class="form-control" value="{{ job.created_at_date }}" required>
-            <small class="text-muted">Adjust for importing old applications</small>
+            <label for="created_at" class="form-label required-field">Created Date</label>
+            <input type="date" id="created_at" name="created_at" class="form-control" value="{{ job.created_at_date }}" required aria-required="true" aria-describedby="created-help">
+            <small id="created-help" class="form-text text-muted">Adjust for importing old applications</small>
         </div>
         <div class="col-md-4 mb-3">
-            <label class="form-label">Next Follow-up Date</label>
-            <input type="date" name="next_followup_at" class="form-control" value="{{ job.next_followup_at_date }}">
-            <small class="text-muted">When to follow up next</small>
+            <label for="next_followup_at" class="form-label">Next Follow-up Date</label>
+            <input type="date" id="next_followup_at" name="next_followup_at" class="form-control" value="{{ job.next_followup_at_date }}" aria-describedby="followup-help">
+            <small id="followup-help" class="form-text text-muted">When to follow up next</small>
         </div>
         <div class="col-md-4 mb-3">
-            <label class="form-label">Last Updated</label>
-            <input type="text" class="form-control" value="{{ job.updated_at_formatted }}" readonly disabled>
-            <small class="text-muted">Auto-updated on save</small>
+            <label for="updated_at" class="form-label">Last Updated</label>
+            <input type="text" id="updated_at" class="form-control" value="{{ job.updated_at_formatted }}" readonly disabled aria-describedby="updated-help">
+            <small id="updated-help" class="form-text text-muted">Auto-updated on save</small>
         </div>
+    </fieldset>
+
+    <div class="mb-3">
+        <label for="job_description" class="form-label">Job Description</label>
+        <textarea id="job_description" name="job_description" class="form-control" rows="8" aria-describedby="job-desc-help">{{ job.job_description or '' }}</textarea>
+        <small id="job-desc-help" class="form-text text-muted">Paste the job description here</small>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Job Description</label>
-        <textarea name="job_description" class="form-control" rows="8">{{ job.job_description or '' }}</textarea>
+        <label for="resume_used" class="form-label">Resume Used</label>
+        <textarea id="resume_used" name="resume_used" class="form-control" rows="8" aria-describedby="resume-help">{{ job.resume_used or '' }}</textarea>
+        <small id="resume-help" class="form-text text-muted">Paste or note the resume version used</small>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Resume Used</label>
-        <textarea name="resume_used" class="form-control" rows="8">{{ job.resume_used or '' }}</textarea>
+        <label for="cover_letter" class="form-label">Cover Letter</label>
+        <textarea id="cover_letter" name="cover_letter" class="form-control" rows="8" aria-describedby="cover-help">{{ job.cover_letter or '' }}</textarea>
+        <small id="cover-help" class="form-text text-muted">Paste your cover letter here</small>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Cover Letter</label>
-        <textarea name="cover_letter" class="form-control" rows="8">{{ job.cover_letter or '' }}</textarea>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Feedback / Notes</label>
-        <textarea name="feedback" class="form-control" rows="6">{{ job.feedback or '' }}</textarea>
+        <label for="feedback" class="form-label">Feedback / Notes</label>
+        <textarea id="feedback" name="feedback" class="form-control" rows="6" aria-describedby="feedback-help">{{ job.feedback or '' }}</textarea>
+        <small id="feedback-help" class="form-text text-muted">Add any feedback, interview notes, or other important information</small>
     </div>
 
     <div class="d-flex gap-2">

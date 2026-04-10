@@ -8,15 +8,15 @@ BRUSSELS_TZ = ZoneInfo("Europe/Brussels")
 
 
 def now_iso() -> str:
-    return datetime.now(BRUSSELS_TZ).strftime("%d-%m-%Y")
+    return datetime.now(BRUSSELS_TZ).isoformat()
 
 
 def days_from_now(days: int) -> str:
     future_date = datetime.now(BRUSSELS_TZ) + timedelta(days=days)
-    return future_date.strftime("%d-%m-%Y")
+    return future_date.isoformat()
 
 
-def add_job(company, title, job_url, status):
+def add_job(company, title, job_url, status, job_description="", resume_used="", cover_letter=""):
     dynamodb = boto3.resource('dynamodb', region_name=AWS_REGION)
     table = dynamodb.Table(DYNAMODB_TABLE_NAME)
 
@@ -38,6 +38,34 @@ def add_job(company, title, job_url, status):
     }
 
     table.put_item(Item=job_item)
+
+    # Add description if provided
+    if job_description.strip():
+        table.put_item(Item={
+            'job_id': job_id,
+            'item_type': 'DESCRIPTION',
+            'content': job_description,
+            'updated_at': created_at
+        })
+
+    # Add resume if provided
+    if resume_used.strip():
+        table.put_item(Item={
+            'job_id': job_id,
+            'item_type': 'RESUME',
+            'content': resume_used,
+            'updated_at': created_at
+        })
+
+    # Add cover letter if provided
+    if cover_letter.strip():
+        table.put_item(Item={
+            'job_id': job_id,
+            'item_type': 'COVER_LETTER',
+            'content': cover_letter,
+            'updated_at': created_at
+        })
+
     return job_id
 
 
@@ -69,14 +97,12 @@ def update_job(job_id, company, title, job_url, status, created_at="", next_foll
 
     # Convert date strings (YYYY-MM-DD) to ISO datetime format
     if created_at:
-        created_at_iso = datetime.strptime(created_at, '%Y-%m-%d').replace(tzinfo=BRUSSELS_TZ).strftime(
-            "%d-%m-%YT%H:%M:%S%z")
+        created_at_iso = datetime.strptime(created_at, '%Y-%m-%d').replace(tzinfo=BRUSSELS_TZ).isoformat()
     else:
         created_at_iso = now_iso()
 
     if next_followup_at:
-        next_followup_iso = datetime.strptime(next_followup_at, '%Y-%m-%d').replace(tzinfo=BRUSSELS_TZ).strftime(
-            "%d-%m-%YT%H:%M:%S%z")
+        next_followup_iso = datetime.strptime(next_followup_at, '%Y-%m-%d').replace(tzinfo=BRUSSELS_TZ).isoformat()
     else:
         next_followup_iso = days_from_now(7)
 
