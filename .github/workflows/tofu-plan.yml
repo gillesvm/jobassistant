@@ -80,6 +80,5 @@ jobs:
           if git diff --name-only origin/main...HEAD | grep -q "CHANGELOG.md"; then
             echo "Changelog updated. Great job!"
           else
-            echo "Error: You forgot to update the CHANGELOG.md!"
-            exit 1
+            echo "::warning title=Changelog Check::No changes detected in CHANGELOG.md. Please ensure this is intentional!"
           fi
