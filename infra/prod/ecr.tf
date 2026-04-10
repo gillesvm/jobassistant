@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "jobassistant" {
-  name                 = "jobassistant-app"
+  name                 = "${local.name_prefix}-app"
   image_tag_mutability = "IMMUTABLE" # Prevents overwriting tags
 
   image_scanning_configuration {

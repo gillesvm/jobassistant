@@ -1,5 +1,5 @@
 resource "aws_security_group" "jobassistant_lb_sg" {
-  name        = "jobassistant-lb-sg_allow_tls"
+  name        = "${local.name_prefix}-lb-sg_allow_tls"
   description = "Allow TLS traffic to the load balancer"
   vpc_id      = aws_vpc.jobassistant_vpc.id
 }
@@ -30,7 +30,7 @@ resource "aws_vpc_security_group_egress_rule" "jobassistant_lb_sg_egress_all" {
 }
 
 resource "aws_security_group" "jobassistant_ecs_sg" {
-  name        = "jobassistant-ecs-sg"
+  name        = "${local.name_prefix}-ecs-sg"
   description = "Allow trafic to the ECS tasks from the load balancer"
   vpc_id      = aws_vpc.jobassistant_vpc.id
 }

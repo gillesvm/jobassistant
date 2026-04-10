@@ -3,6 +3,7 @@ resource "aws_vpc" "jobassistant_vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
+  tags = merge(local.common_tags, { Name = "${local.name_prefix}-vpc" })
 }
 
 resource "aws_internet_gateway" "jobassistant_igw" {

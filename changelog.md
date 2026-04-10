@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 - Set up an ECR repository with automated image scanning and a 5-image lifecycle retention policy.
 - Implemented a CI/CD guardrail to enforce CHANGELOG.md updates on all Pull Requests.
 - Added security groups for VPC traffic
+- Added ALB for public access to the application
+- Added ACM and Route53 for custom domain and https
 
 ## [1.2.0] - 2026-04-10
 
