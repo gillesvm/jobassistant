@@ -43,4 +43,4 @@ resource "aws_ecs_service" "jobassistant_service" {
     container_port   = 8000
   }
 }
-  
+
