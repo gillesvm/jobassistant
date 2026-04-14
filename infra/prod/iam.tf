@@ -60,9 +60,6 @@ data "aws_iam_policy_document" "jobassistant_ecs_task_policy" {
       type        = "Service"
       identifiers = ["ecs-tasks.amazonaws.com"]
     }
-    resources = [
-      "*",
-    ]
   }
 }
 
