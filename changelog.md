@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [1.2.1] - 2026-04-14
+
+### Fixes
+- Fixed ECS task and execution role trust policy by removing invalid `resources` field from assume role policy document
+
+### Changed
+- Added 30-minute timeout to `tofu-apply.yml` to prevent pipeline hanging on long-running resources
+
 ### Added
 - Created a custom VPC architecture using public subnets for cost-efficient container hosting.
 - Set up an ECR repository with automated image scanning and a 5-image lifecycle retention policy.
