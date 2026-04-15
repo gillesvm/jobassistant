@@ -75,5 +75,5 @@ resource "aws_iam_role" "jobassistant_ecs_task_execution_role" {
 
 resource "aws_iam_role_policy_attachment" "jobassistant_ecs_task_execution_role_attach" {
   role       = aws_iam_role.jobassistant_ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonECSTaskExecutionRolePolicy"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [1.2.2] - 2026-04-15
+
+### Fixes
+
+- Fixed the ECS task IAM policy attachment
+
 ## [1.2.1] - 2026-04-14
 
 ### Fixes
