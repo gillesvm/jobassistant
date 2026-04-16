@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- Updated the app authentication to use hashes instead of plain text
+
 ## [1.2.2] - 2026-04-15
 
 ### Fixes

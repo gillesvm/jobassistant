@@ -2,11 +2,13 @@ from fastapi import APIRouter, Form, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from config import APP_USERNAME, APP_PASSWORD
+from config import APP_USERNAME, APP_PASSWORD_HASH
 from services.auth import is_authenticated
+from passlib.context import CryptContext
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 @router.get("/login")
@@ -23,7 +25,7 @@ def login_page(request: Request):
 
 @router.post("/login")
 def login(request: Request, username: str = Form(...), password: str = Form(...)):
-    if username == APP_USERNAME and password == APP_PASSWORD:
+    if username == APP_USERNAME and pwd_context.verify(password, APP_PASSWORD_HASH):
         request.session["authenticated"] = True
         request.session["username"] = username
         return RedirectResponse(url="/", status_code=303)
