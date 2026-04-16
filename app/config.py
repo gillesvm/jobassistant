@@ -5,13 +5,13 @@ load_dotenv()
 
 # config for login to webapp
 APP_USERNAME = os.getenv("APP_USERNAME", "")
-APP_PASSWORD = os.getenv("APP_PASSWORD", "")
+APP_PASSWORD_HASH = os.getenv("APP_PASSWORD_HASH", "")
 SESSION_SECRET_KEY = os.getenv("SESSION_SECRET_KEY", "")
 
-if not APP_USERNAME or not APP_PASSWORD or not SESSION_SECRET_KEY:
+if not APP_USERNAME or not APP_PASSWORD_HASH or not SESSION_SECRET_KEY:
     raise RuntimeError(
         "Missing required environment variables: "
-        "APP_USERNAME, APP_PASSWORD, SESSION_SECRET_KEY"
+        "APP_USERNAME, APP_PASSWORD_HASH, SESSION_SECRET_KEY"
     )
 
 # config for aws services

@@ -22,6 +22,20 @@ resource "aws_ecs_task_definition" "jobassistant_task_definition" {
           protocol      = "tcp"
         }
       ]
+      secrets = [
+        {
+          name      = "APP_USERNAME"
+          valueFrom = aws_ssm_parameter.app_username.arn
+        },
+        {
+          name      = "APP_PASSWORD_HASH"
+          valueFrom = aws_ssm_parameter.app_password_hash.arn
+        },
+        {
+          name      = "SESSION_SECRET_KEY"
+          valueFrom = aws_ssm_parameter.session_secret_key.arn
+        }
+      ]
     }
   ])
 }
