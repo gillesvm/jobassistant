@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "aws_ecs_cluster" "jobassistant_ecs" {
   name = "${local.name_prefix}-cluster"
 }
@@ -20,6 +22,20 @@ resource "aws_ecs_task_definition" "jobassistant_task_definition" {
           containerPort = 8000
           hostPort      = 8000
           protocol      = "tcp"
+        }
+      ]
+      environment = [
+        {
+          name  = "DYNAMODB_TABLE_NAME"
+          value = aws_dynamodb_table.jobassistant_jobs.name
+        },
+        {
+          name  = "S3_BUCKET_NAME"
+          value = aws_s3_bucket.job_artifacts.bucket
+        },
+        {
+          name  = "AWS_REGION"
+          value = data.aws_region.current.name
         }
       ]
       secrets = [
