@@ -56,5 +56,9 @@ resource "aws_ecs_service" "jobassistant_service" {
     container_name   = "${local.name_prefix}-container"
     container_port   = 8000
   }
+
+  lifecycle {
+    ignore_changes = [task_definition]
+  }
 }
 

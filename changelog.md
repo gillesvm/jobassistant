@@ -4,12 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [1.3.0] - 2026-04-17
+
 ### Added
 
-- Updated the app authentication to use hashes instead of plain text
-- Added ssm.tf to store secrets in AWS SSM Parameter Store for accessing the app
-- Added the secrets to the ECS task definition in ecs.tf
-- Added a statement to the ECS task IAM policy to allow access to the secrets in iam.tf
+- Dockerized the application with an optimized `python:3.11-slim` Dockerfile
+- Configured automated `.github/workflows/app-deploy.yml` CI/CD pipeline driven entirely by OpenTofu backend outputs
+- Updated the app authentication to use bcrypt hashes instead of plain text
+- Added `ssm.tf` to securely store app credentials in AWS SSM Parameter Store
+- Injected SSM secrets into the ECS task definition in `ecs.tf`
+- Added `ssm:GetParameters` statement to the ECS execution IAM policy
+- Added `app_url` and `alb_dns_name` explicitly to OpenTofu `outputs.tf` for deployment visibility
 
 ## [1.2.2] - 2026-04-15
 
