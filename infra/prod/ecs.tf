@@ -38,6 +38,14 @@ resource "aws_ecs_task_definition" "jobassistant_task_definition" {
           value = data.aws_region.current.name
         }
       ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = aws_cloudwatch_log_group.jobassistant.name
+          awslogs-region        = data.aws_region.current.name
+          awslogs-stream-prefix = "ecs"
+        }
+      }
       secrets = [
         {
           name      = "APP_USERNAME"

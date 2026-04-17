@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [1.3.3] - 2026-04-17
+
+### Added
+- Created `aws_cloudwatch_log_group` to permanently capture app telemetry traces
+- Linked ECS Task Native AWSLogs driver to the container definition
+
 ## [1.3.2] - 2026-04-17
 
 ### Fixed
