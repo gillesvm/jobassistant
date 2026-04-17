@@ -13,9 +13,13 @@ resource "aws_lb_target_group" "jobassistant_tg" {
   vpc_id      = aws_vpc.jobassistant_vpc.id
   target_type = "ip"
   health_check {
-    path     = "/"
-    protocol = "HTTP"
-    matcher  = "200"
+    path                = "/login"
+    protocol            = "HTTP"
+    matcher             = "200"
+    interval            = 60
+    timeout             = 10
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
   }
 }
 

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [1.3.4] - 2026-04-17
+
+### Changed
+- Updated `bcrypt` to version `4.0.1` in `requirements.txt` to resolve `passlib` dependency conflicts.
+- Updated ALB health check to use `/login` endpoint instead of `/`
+
 ## [1.3.3] - 2026-04-17
 
 ### Added
