@@ -44,7 +44,7 @@ resource "aws_ecs_service" "jobassistant_service" {
   name            = "${local.name_prefix}-service"
   cluster         = aws_ecs_cluster.jobassistant_ecs.id
   task_definition = aws_ecs_task_definition.jobassistant_task_definition.arn
-  desired_count   = 0
+  desired_count   = 1
   launch_type     = "FARGATE"
   network_configuration {
     security_groups  = [aws_security_group.jobassistant_ecs_sg.id]

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [1.3.1] - 2026-04-17
+
+### Added
+
+- Set the desired count of the ECS service to 1
+
 ## [1.3.0] - 2026-04-17
 
 ### Added
