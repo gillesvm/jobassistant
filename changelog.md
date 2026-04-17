@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Updated the app authentication to use hashes instead of plain text
+- Added ssm.tf to store secrets in AWS SSM Parameter Store for accessing the app
+- Added the secrets to the ECS task definition in ecs.tf
+- Added a statement to the ECS task IAM policy to allow access to the secrets in iam.tf
 
 ## [1.2.2] - 2026-04-15
 

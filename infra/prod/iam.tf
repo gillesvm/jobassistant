@@ -61,6 +61,27 @@ data "aws_iam_policy_document" "jobassistant_ecs_task_policy" {
       identifiers = ["ecs-tasks.amazonaws.com"]
     }
   }
+}
+
+# Task Role: Used by the application code itself
+resource "aws_iam_role" "jobassistant_ecs_task_role" {
+  name               = "${local.name_prefix}-ecs-task-role"
+  assume_role_policy = data.aws_iam_policy_document.jobassistant_ecs_task_policy.json
+}
+
+# Execution Role: Used by the ECS Agent to pull images and secrets
+resource "aws_iam_role" "jobassistant_ecs_task_execution_role" {
+  name               = "${local.name_prefix}-ecs-task-execution-role"
+  assume_role_policy = data.aws_iam_policy_document.jobassistant_ecs_task_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "jobassistant_ecs_task_execution_role_attach" {
+  role       = aws_iam_role.jobassistant_ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+# Custom SSM policy for the Execution Role to get the app authentication credentials
+data "aws_iam_policy_document" "jobassistant_ecs_task_execution_ssm_policy" {
   statement {
     effect = "Allow"
     actions = [
@@ -74,41 +95,12 @@ data "aws_iam_policy_document" "jobassistant_ecs_task_policy" {
   }
 }
 
-resource "aws_iam_role" "jobassistant_ecs_task_role" {
-  name               = "${local.name_prefix}-ecs-task-role"
-  assume_role_policy = data.aws_iam_policy_document.jobassistant_ecs_task_policy.json
+resource "aws_iam_policy" "jobassistant_ecs_task_execution_ssm_policy" {
+  name   = "${local.name_prefix}-ecs-task-execution-ssm-policy"
+  policy = data.aws_iam_policy_document.jobassistant_ecs_task_execution_ssm_policy.json
 }
 
-resource "aws_iam_role" "jobassistant_ecs_task_execution_role" {
-  name               = "${local.name_prefix}-ecs-task-execution-role"
-  assume_role_policy = data.aws_iam_policy_document.jobassistant_ecs_task_policy.json
-}
-
-resource "aws_iam_role_policy_attachment" "jobassistant_ecs_task_execution_role_attach" {
+resource "aws_iam_role_policy_attachment" "jobassistant_ecs_task_execution_ssm_policy_attach" {
   role       = aws_iam_role.jobassistant_ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  policy_arn = aws_iam_policy.jobassistant_ecs_task_execution_ssm_policy.arn
 }
-
-# data "aws_iam_policy_document" "jobassistant_ecs_task_execution_ssm_policy" {
-#   statement {
-#     effect = "Allow"
-#     actions = [
-#       "ssm:GetParameters"
-#     ]
-#     resources = [
-#       aws_ssm_parameter.app_username.arn,
-#       aws_ssm_parameter.app_password_hash.arn,
-#       aws_ssm_parameter.session_secret_key.arn
-#     ]
-#   }
-# }
-
-# resource "aws_iam_policy" "jobassistant_ecs_task_execution_ssm_policy" {
-#   name   = "${local.name_prefix}-ecs-task-execution-ssm-policy"
-#   policy = data.aws_iam_policy_document.jobassistant_ecs_task_execution_ssm_policy.json
-# }
-
-# resource "aws_iam_role_policy_attachment" "jobassistant_ecs_task_execution_ssm_policy_attach" {
-#   role       = aws_iam_role.jobassistant_ecs_task_execution_role.name
-#   policy_arn = aws_iam_policy.jobassistant_ecs_task_execution_ssm_policy.arn
-# }
