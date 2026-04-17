@@ -69,6 +69,48 @@ resource "aws_iam_role" "jobassistant_ecs_task_role" {
   assume_role_policy = data.aws_iam_policy_document.jobassistant_ecs_task_policy.json
 }
 
+data "aws_iam_policy_document" "jobassistant_app_permissions" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:ListBucket",
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject"
+    ]
+    resources = [
+      aws_s3_bucket.job_artifacts.arn,
+      "${aws_s3_bucket.job_artifacts.arn}/*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "dynamodb:PutItem",
+      "dynamodb:GetItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:Scan",
+      "dynamodb:Query"
+    ]
+    resources = [
+      aws_dynamodb_table.jobassistant_jobs.arn,
+      "${aws_dynamodb_table.jobassistant_jobs.arn}/index/*"
+    ]
+  }
+}
+
+resource "aws_iam_policy" "jobassistant_app_permissions" {
+  name   = "${local.name_prefix}-app-permissions-policy"
+  policy = data.aws_iam_policy_document.jobassistant_app_permissions.json
+}
+
+resource "aws_iam_role_policy_attachment" "jobassistant_app_permissions_attach" {
+  role       = aws_iam_role.jobassistant_ecs_task_role.name
+  policy_arn = aws_iam_policy.jobassistant_app_permissions.arn
+}
+
 # Execution Role: Used by the ECS Agent to pull images and secrets
 resource "aws_iam_role" "jobassistant_ecs_task_execution_role" {
   name               = "${local.name_prefix}-ecs-task-execution-role"

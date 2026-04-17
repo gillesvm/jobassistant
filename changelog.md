@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## [1.3.2] - 2026-04-17
+
+### Fixed
+
+- Injected strictly scoped IAM permissions into `jobassistant_ecs_task_role` granting granular read/write capability to DynamoDB and S3 bucket resources preventing backend 500 configuration errors.
+- Passed `DYNAMODB_TABLE_NAME`, `S3_BUCKET_NAME`, and `AWS_REGION` implicitly into the ECS `container_definitions` environment array mapping natively to OpenTofu dynamic resources.
+
 ## [1.3.1] - 2026-04-17
 
 ### Added
