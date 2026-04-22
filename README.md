@@ -36,16 +36,16 @@ The initial idea was to have AI assist with job matching and generating cover le
 
 The infrastructure follows a modular, secure-by-default design. 
 
-> **Note:** Infrastructure marked as *(In Development)* is currently being provisioned in the active feature branch and may not be fully available on `main` yet.
-
 ### Networking & Security
-- **Custom VPC (In Development)**: A scratch-built networking layer with public subnets across multiple Availability Zones for cost-efficient container hosting.
+- **Custom VPC**: A scratch-built networking layer with public subnets across multiple Availability Zones for cost-efficient container hosting.
+- **ALB & Route53**: Application Load Balancer safely exposing the application behind a custom Route53 HTTPS Domain.
 - **S3 Security**: Hardened with Public Access Block, Ownership Controls, and AES-256 server-side encryption.
 - **IAM Roles**: Least-privilege roles for GitHub Actions and application execution.
 
 ### Compute & Storage
+- **ECS Fargate**: Fully Serverless Docker Container execution environment, securely integrated with AWS SSM tracking and CloudWatch logging.
 - **DynamoDB**: Single-table design with Global Secondary Indexes (GSI) for efficient status-based queries.
-- **ECR Repository (In Development)**: Private container registry with `IMMUTABLE` tags, automated image scanning, and a lifecycle policy to retain the 10 most recent images.
+- **ECR Repository**: Private container registry with `IMMUTABLE` tags, automated image scanning, and a lifecycle policy to retain the 5 most recent images.
 
 ## Project Structure
 
@@ -113,9 +113,9 @@ jobassistant/
 
 - [x] Create Custom VPC Infrastructure
 - [x] Setup ECR Repository
-- [ ] Containerize with Docker (In Progress)
-- [ ] Deploy to AWS ECS (Fargate)
-- [ ] Custom domain with Route53
+- [x] Containerize with Docker
+- [x] Deploy to AWS ECS (Fargate)
+- [x] Custom domain with Route53
 - [ ] AI-powered resume/cover letter generation
 
 ## License
